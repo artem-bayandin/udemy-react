@@ -32,9 +32,14 @@ const App = () => {
                 value={usernameState.username}
             />
             <UserOutput
+                name='live'
                 initialUsername={initialUsername}
                 prevUsername={usernameState.prevUsername}
                 username={usernameState.username}
+            />
+            <UserOutput
+                name='static'
+                username='Static Bob'
             />
         </div>
     );
