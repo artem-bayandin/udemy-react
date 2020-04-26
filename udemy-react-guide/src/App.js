@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './App.css'
+import styles from './App.module.css'
 import Person from './Person/Person'
 
 const App = props => {
@@ -43,19 +43,19 @@ const App = props => {
 
     const [viewPeople, setViewPeople] = useState(false)
 
-    const resetBtnStyles = [];
+    const resetBtnStyles = [styles.button];
     if (peopleState.people.length > 3) {
-        resetBtnStyles.push('combined-italic')
+        resetBtnStyles.push(styles.combinedItalic)
     }
     if (peopleState.people.length < 3) {
-        resetBtnStyles.push('combined-bold')
+        resetBtnStyles.push(styles.combinedBold)
     }
     if (peopleState.people.length < 1) {
-        resetBtnStyles.push('combined-red')
+        resetBtnStyles.push(styles.combinedRed)
     }
 
     return (
-        <div className="App">
+        <div className={styles.app}>
             <h1>hello</h1>
             <button
                 key="resetBtn"
@@ -65,7 +65,7 @@ const App = props => {
             <button
                 key="addAgeToEverybodyBtn"
                 onClick={addAgeToAll}
-                className='add-age-btn'
+                className={styles.addAgeBtn}
             >add age to everybody</button>
             <button
                 key="togglePeople"

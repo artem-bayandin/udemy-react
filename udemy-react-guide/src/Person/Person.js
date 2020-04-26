@@ -1,5 +1,5 @@
 import React from 'react'
-import './Person.css'
+import styles from './Person.module.css'
 
 const person = (props) => {
     const addAgeClickHandler = (ev) => {
@@ -8,7 +8,7 @@ const person = (props) => {
     }
 
     return (
-        <div className="person">
+        <div className={styles.person}>
             <p>My name is {props.name} and I'm {props.age} years old</p>
             <p>{props.children}</p>
             <p>
