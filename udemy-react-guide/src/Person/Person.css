@@ -6,3 +6,19 @@
     padding: 20px;
     text-align: center;
 }
+
+.Person button {
+    margin-right: 10px;
+}
+
+.combined-red {
+    color: red;
+}
+
+.combined-bold {
+    font-weight: bold;
+}
+
+.combined-italic {
+    font-style: italic;
+}
