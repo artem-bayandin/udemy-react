@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person'
+import Radium from 'radium'
 
 const App = props => {
     const initialState = {
@@ -48,7 +49,11 @@ const App = props => {
         border: '2px solid #aaa',
         padding: '5px 10px',
         fontSize: '16px',
-        marginRight: '10px'
+        marginRight: '10px',
+        ':hover': {
+            backgroundColor: 'lightgreen',
+            color: 'black'
+        }
     }
 
     const resetBtnStyles = [];
@@ -62,12 +67,33 @@ const App = props => {
         resetBtnStyles.push('combined-red')
     }
 
+    let addAgeToEverybodyStyle = {...buttonStyle}
+    if (viewPeople) {
+        addAgeToEverybodyStyle[':hover'] = {
+            backgroundColor: 'lightyellow',
+            color: 'darkblue'
+        }
+    }
+
     return (
         <div className="App">
             <h1>hello</h1>
-            <button onClick={() => setPeople(initialState)} style={buttonStyle} className={resetBtnStyles.join(' ')}>reset</button>
-            <button onClick={addAgeToAll} style={buttonStyle}>add age to everybody</button>
-            <button onClick={() => setViewPeople(prevState => !prevState)} style={buttonStyle}>toggle view</button>
+            <button
+                key="resetBtn"
+                onClick={() => setPeople(initialState)}
+                style={buttonStyle}
+                className={resetBtnStyles.join(' ')}
+            >reset</button>
+            <button
+                key="addAgeToEverybodyBtn"
+                onClick={addAgeToAll}
+                style={addAgeToEverybodyStyle}
+            >add age to everybody</button>
+            <button
+                key="togglePeople"
+                onClick={() => setViewPeople(prevState => !prevState)}
+                style={buttonStyle}
+            >toggle view</button>
             {
                 viewPeople &&
                 peopleState.people.map(item => 
@@ -85,4 +111,4 @@ const App = props => {
     );
 }
 
-export default App;
+export default Radium(App);
