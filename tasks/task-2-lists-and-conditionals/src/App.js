@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import TextInput from './Components/TextInput/TextInput';
+import TextLengthValidator from './Components/TextLengthValidator/TextLengthValidator';
+import CharList from './Components/Char/CharList';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [ text, setText ] = useState('');
+
+    const textChangedHandler = (ev) => {
+        let currentTarget = ev.currentTarget
+        setText(currentTarget.value)
+    }
+
+    const deleteByIndexHandler = (index) => {
+        let newText = [...text]
+        newText.splice(index, 1)
+        setText(newText.join(''))
+    }
+
+    return (
+        <div className="App">
+            <h1>Task 2: Lists & Conditionals</h1>
+            <TextInput textChanged={textChangedHandler} value={text} />
+            <TextLengthValidator current={text.length} min="5" max="20" />
+            <CharList text={text} deleteByIndex={deleteByIndexHandler} />
+        </div>
+    );
 }
 
 export default App;
