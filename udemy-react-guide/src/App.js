@@ -1,28 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
 import Person from './Person/Person'
-// import Radium, { StyleRoot } from 'radium'
-import styled from 'styled-components'
-
-const StyledButton = styled.button`
-background-color: ${props => props.alt && props.alt == 'true' ? 'lightblue' : 'white'};
-border: 2px solid #aaa;
-padding: 5px 10px;
-font-size: 16px;
-margin-right: 10px;
-
-&:hover {
-    background-color: lightgreen;
-    color: black;
-}
-`
-
-const StyledAddAgeToEverybodyButton = styled(StyledButton)`
-&:hover {
-    background-color: lightyellow;
-    color: darkblue;
-}
-`
 
 const App = props => {
     const initialState = {
@@ -65,18 +43,6 @@ const App = props => {
 
     const [viewPeople, setViewPeople] = useState(false)
 
-    // const buttonStyle = {
-    //     backgroundColor: 'white',
-    //     border: '2px solid #aaa',
-    //     padding: '5px 10px',
-    //     fontSize: '16px',
-    //     marginRight: '10px',
-    //     ':hover': {
-    //         backgroundColor: 'lightgreen',
-    //         color: 'black'
-    //     }
-    // }
-
     const resetBtnStyles = [];
     if (peopleState.people.length > 3) {
         resetBtnStyles.push('combined-italic')
@@ -88,69 +54,23 @@ const App = props => {
         resetBtnStyles.push('combined-red')
     }
 
-    // let addAgeToEverybodyStyle = { ...buttonStyle }
-    // if (viewPeople) {
-    //     addAgeToEverybodyStyle[':hover'] = {
-    //         backgroundColor: 'lightyellow',
-    //         color: 'darkblue'
-    //     }
-    // }
-
     return (
-        // <StyleRoot>
-        //     <div className="App">
-        //         <h1>hello</h1>
-        //         <button
-        //             key="resetBtn"
-        //             onClick={() => setPeople(initialState)}
-        //             style={buttonStyle}
-        //             className={resetBtnStyles.join(' ')}
-        //         >reset</button>
-        //         <button
-        //             key="addAgeToEverybodyBtn"
-        //             onClick={addAgeToAll}
-        //             style={addAgeToEverybodyStyle}
-        //         >add age to everybody</button>
-        //         <button
-        //             key="togglePeople"
-        //             onClick={() => setViewPeople(prevState => !prevState)}
-        //             style={buttonStyle}
-        //         >toggle view</button>
-        //         {
-        //             viewPeople &&
-        //             peopleState.people.map(item =>
-        //                 <Person
-        //                     key={item.id}
-        //                     id={item.id}
-        //                     name={item.name}
-        //                     age={item.age}
-        //                     makeOlder={(ev) => makeOneOlderHandler(ev, item.id)}
-        //                     nameChanged={(ev) => nameChangedHandler(ev, item.id)}
-        //                     click={() => deletePersonById(item.id)}
-        //                 />)
-        //         }
-        //     </div>
-        // </StyleRoot>
         <div className="App">
             <h1>hello</h1>
-            <StyledButton
+            <button
                 key="resetBtn"
-                alt={viewPeople.toString()}
                 onClick={() => setPeople(initialState)}
-                //style={buttonStyle}
                 className={resetBtnStyles.join(' ')}
-            >reset</StyledButton>
-            <StyledAddAgeToEverybodyButton
+            >reset</button>
+            <button
                 key="addAgeToEverybodyBtn"
                 onClick={addAgeToAll}
-                // style={addAgeToEverybodyStyle}
-            >add age to everybody</StyledAddAgeToEverybodyButton>
-            <StyledButton
+                className='add-age-btn'
+            >add age to everybody</button>
+            <button
                 key="togglePeople"
-                alt={viewPeople.toString()}
                 onClick={() => setViewPeople(prevState => !prevState)}
-                //style={buttonStyle}
-            >toggle view</StyledButton>
+            >toggle view</button>
             {
                 viewPeople &&
                 peopleState.people.map(item =>
@@ -168,5 +88,4 @@ const App = props => {
     )
 }
 
-// export default Radium(App)
 export default App

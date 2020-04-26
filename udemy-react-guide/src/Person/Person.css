@@ -1,13 +1,23 @@
-.Person {
+.person {
     width: 60%;
     margin: 20px auto;
     border: 1px solid #ddd;
     box-shadow: 0 2px 3px #bbb;
     padding: 20px;
     text-align: center;
+
+    @media (min-width: 500px): {
+        width: 420px
+    }
 }
 
-.Person button {
+@media (min-width: 500px) {
+    .person {
+        width: 420px;
+    }
+}
+
+.person button {
     margin-right: 10px;
 }
 
