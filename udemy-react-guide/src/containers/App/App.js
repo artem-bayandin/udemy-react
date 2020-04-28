@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './App.module.css'
-import Person from './Person/Person'
+import PeopleList from '../../components/People/PeopleList/PeopleList'
+import Cockpit from '../../components/Cockpit/Cockpit'
 
 const App = props => {
     const initialState = {
@@ -43,46 +44,23 @@ const App = props => {
 
     const [viewPeople, setViewPeople] = useState(false)
 
-    const resetBtnStyles = [styles.button];
-    if (peopleState.people.length > 3) {
-        resetBtnStyles.push(styles.combinedItalic)
-    }
-    if (peopleState.people.length < 3) {
-        resetBtnStyles.push(styles.combinedBold)
-    }
-    if (peopleState.people.length < 1) {
-        resetBtnStyles.push(styles.combinedRed)
-    }
-
     return (
         <div className={styles.app}>
-            <h1>hello</h1>
-            <button
-                key="resetBtn"
-                onClick={() => setPeople(initialState)}
-                className={resetBtnStyles.join(' ')}
-            >reset</button>
-            <button
-                key="addAgeToEverybodyBtn"
-                onClick={addAgeToAll}
-                className={styles.addAgeBtn}
-            >add age to everybody</button>
-            <button
-                key="togglePeople"
-                onClick={() => setViewPeople(prevState => !prevState)}
-            >toggle view</button>
+            <Cockpit 
+                title={props.title}
+                setPeople={() => setPeople(initialState)}
+                addAgeToAll={addAgeToAll}
+                setViewPeople={() => setViewPeople(prevState => !prevState)}
+                peopleCount={peopleState.people.length}
+            />
             {
                 viewPeople &&
-                peopleState.people.map(item =>
-                    <Person
-                        key={item.id}
-                        id={item.id}
-                        name={item.name}
-                        age={item.age}
-                        makeOlder={(ev) => makeOneOlderHandler(ev, item.id)}
-                        nameChanged={(ev) => nameChangedHandler(ev, item.id)}
-                        click={() => deletePersonById(item.id)}
-                    />)
+                <PeopleList
+                    people={peopleState.people}
+                    makeOneOlderHandler={makeOneOlderHandler}
+                    nameChangedHandler={nameChangedHandler}
+                    deletePersonById={deletePersonById}
+                    />
             }
         </div>
     )
