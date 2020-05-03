@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import styles from './Cockpit.module.css'
 
 const Cockpit = props => {
+    // ref
+    const togglePeopleBtnRef = useRef(null)
 
     useEffect(() => {
         console.log('Cockpit :: useEffect :: empty effect')
 
-        return () => console.log('Cockpit :: destroyed')
+        return () => console.log('Cockpit :: cleared')
     })
 
     useEffect(() => {
@@ -17,6 +19,14 @@ const Cockpit = props => {
     useEffect(() => {
         console.log('Cockpit :: useEffect :: props.peopleCount')
     }, [props.peopleCount])
+
+    useEffect(() => {
+        console.log('i will toggle people view in a second')
+        setTimeout(() => {
+            togglePeopleBtnRef.current.click()
+            console.log('people view toggled')
+        }, 1000);
+    }, [])
 
     const resetBtnStyles = [styles.button];
     if (props.peopleCount > 3) {
@@ -44,6 +54,7 @@ const Cockpit = props => {
             >add age to everybody</button>
             <button
                 key="togglePeople"
+                ref={togglePeopleBtnRef}
                 onClick={props.setViewPeople}
             >toggle view</button>
         </>
