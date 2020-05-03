@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import styles from './Person.module.css'
 import withClass from '../../../hoc/WithClass/withClassFunc'
@@ -18,10 +19,18 @@ const person = (props) => {
             </p>
             <div>
                 <button onClick={(ev) => addAgeClickHandler(ev)}>add age to {props.name}</button>
-                <button onClick={props.click}>delete</button>
+                <button onClick={props.deleteClicked}>delete</button>
             </div>
         </>
     )
+}
+
+person.propTypes = {
+    makeOlder: PropTypes.func,
+    nameChanged: PropTypes.func,
+    deleteClicked: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number
 }
 
 export default withClass(person, styles.person)

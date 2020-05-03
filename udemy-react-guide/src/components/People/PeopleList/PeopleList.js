@@ -10,7 +10,7 @@ const PeopleList = props => props.people.map(item =>
         age={item.age}
         makeOlder={(ev) => props.makeOneOlderHandler(ev, item.id)}
         nameChanged={(ev) => props.nameChangedHandler(ev, item.id)}
-        click={() => props.deletePersonById(item.id)}
+        deleteClicked={() => props.deletePersonById(item.id)}
     />)
 
 export default PeopleList
