@@ -1,8 +1,13 @@
-import React from "react"
+import React from 'react'
+
+import Layout from './components/Layout/Layout'
+import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 
 const App = (props) => {
     return (
-        <div>My Burger App</div>
+        <Layout>
+            <BurgerBuilder />
+        </Layout>
     )
 }
 
