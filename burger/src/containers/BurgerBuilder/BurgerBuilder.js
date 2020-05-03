@@ -26,10 +26,19 @@ const BurgerBuilder = (props) => {
 
     const [ingredients, setIngredients] = useState(initialIngredients)
     const [price, setPrice] = useState(0)
+    const [purchasable, setPurchasable] = useState(false)
 
     useEffect(() => {
         recalculatePrice() // temporary solution as we use 'initialState'
-        recalculateBtnDisability()
+        
+        setBtnsDisabled({
+            salad: !ingredients.salad,
+            bacon: !ingredients.bacon,
+            cheese: !ingredients.cheese,
+            meat: !ingredients.meat,
+        })
+
+        setPurchasable(ingredients.salad || ingredients.bacon || ingredients.cheese || ingredients.meat)
     }, [
         ingredients.salad,
         ingredients.bacon,
@@ -47,15 +56,6 @@ const BurgerBuilder = (props) => {
     }
 
     const recalculateSingleIngredientPrice = (type) => ingredients[type] * INGREDIENT_PRICES[type]
-
-    const recalculateBtnDisability = () => {
-        setBtnsDisabled({
-            salad: !ingredients.salad,
-            bacon: !ingredients.bacon,
-            cheese: !ingredients.cheese,
-            meat: !ingredients.meat,
-        })
-    }
 
     const removeIngredientHandler = (type) => {
         setIngredients((prevState) => {
@@ -83,6 +83,7 @@ const BurgerBuilder = (props) => {
                 ingredientRemoved={removeIngredientHandler}
                 btnsDisabled={btnsDisabled}
                 price={price}
+                purchasable={purchasable}
             />
         </>
     )
