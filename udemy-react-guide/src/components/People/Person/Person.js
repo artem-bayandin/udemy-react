@@ -1,7 +1,6 @@
 import React from 'react'
 
 import styles from './Person.module.css'
-import WithClass from '../../../hoc/WithClass/WithClass'
 import withClass from '../../../hoc/WithClass/withClassFunc'
 
 const person = (props) => {
