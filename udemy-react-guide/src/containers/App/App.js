@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './App.module.css'
 import PeopleList from '../../components/People/PeopleList/PeopleList'
 import Cockpit from '../../components/Cockpit/Cockpit'
+import MultipleAdjacentElements from '../../components/Custom/MultipleAdjacent/MultipleAdjacentElements'
 
 const App = props => {
     const initialState = {
@@ -62,6 +63,9 @@ const App = props => {
                     deletePersonById={deletePersonById}
                     />
             }
+            <div>
+                <MultipleAdjacentElements />
+            </div>
         </div>
     )
 }
