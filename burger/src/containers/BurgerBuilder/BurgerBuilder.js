@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import Burger from "../../components/Burger/Burger"
 import BuildControls from "../../components/Burger/BuildControls/BuildControls"
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -27,6 +29,7 @@ const BurgerBuilder = (props) => {
     const [ingredients, setIngredients] = useState(initialIngredients)
     const [price, setPrice] = useState(0)
     const [purchasable, setPurchasable] = useState(false)
+    const [purchasing, setPurchasing] = useState(false)
 
     useEffect(() => {
         recalculatePrice() // temporary solution as we use 'initialState'
@@ -75,8 +78,15 @@ const BurgerBuilder = (props) => {
         })
     }
 
+    const purchaseHandler = () => setPurchasing(true)
+
+    const purchaseCancelHandler = () => {setPurchasing(false)}
+
     return (
         <>
+            <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
+                <OrderSummary ingredients={ingredients} />
+            </Modal>
             <Burger ingredients={ingredients} />
             <BuildControls
                 ingredientAdded={addIngredientHandler}
@@ -84,6 +94,7 @@ const BurgerBuilder = (props) => {
                 btnsDisabled={btnsDisabled}
                 price={price}
                 purchasable={purchasable}
+                purchase={purchaseHandler}
             />
         </>
     )
