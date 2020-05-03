@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styles from './Cockpit.module.css'
 
 const Cockpit = props => {
+
+    useEffect(() => {
+        console.log('Cockpit :: useEffect :: empty effect')
+
+        return () => console.log('Cockpit :: destroyed')
+    })
+
+    useEffect(() => {
+        console.log('Cockpit :: useEffect :: empty array')
+    }, [])
+
+    useEffect(() => {
+        console.log('Cockpit :: useEffect :: props.peopleCount')
+    }, [props.peopleCount])
 
     const resetBtnStyles = [styles.button];
     if (props.peopleCount > 3) {
@@ -36,4 +50,4 @@ const Cockpit = props => {
     )
 }
 
-export default Cockpit
+export default React.memo(Cockpit) // tracks changes of input values // does not work??
