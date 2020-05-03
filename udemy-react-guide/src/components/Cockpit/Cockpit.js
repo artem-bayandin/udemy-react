@@ -79,4 +79,4 @@ const Cockpit = props => {
     )
 }
 
-export default React.memo(Cockpit) // tracks changes of input values // does not work??
+export default Cockpit
