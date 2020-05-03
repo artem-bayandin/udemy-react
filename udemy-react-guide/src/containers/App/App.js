@@ -3,6 +3,7 @@ import styles from './App.module.css'
 import PeopleList from '../../components/People/PeopleList/PeopleList'
 import Cockpit from '../../components/Cockpit/Cockpit'
 import MultipleAdjacentElements from '../../components/Custom/MultipleAdjacent/MultipleAdjacentElements'
+import Auxilliary from '../../hoc/Auxilliary/Auxilliary'
 
 const App = props => {
     const initialState = {
@@ -47,7 +48,7 @@ const App = props => {
 
     return (
         <div className={styles.app}>
-            <Cockpit 
+            <Cockpit
                 title={props.title}
                 setPeople={() => setPeople(initialState)}
                 addAgeToAll={addAgeToAll}
@@ -61,10 +62,12 @@ const App = props => {
                     makeOneOlderHandler={makeOneOlderHandler}
                     nameChangedHandler={nameChangedHandler}
                     deletePersonById={deletePersonById}
-                    />
+                />
             }
             <div>
-                <MultipleAdjacentElements />
+                <Auxilliary>
+                    <MultipleAdjacentElements />
+                </Auxilliary>
             </div>
         </div>
     )
