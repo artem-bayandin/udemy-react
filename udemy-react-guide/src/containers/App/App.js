@@ -4,6 +4,7 @@ import PeopleList from '../../components/People/PeopleList/PeopleList'
 import Cockpit from '../../components/Cockpit/Cockpit'
 import MultipleAdjacentElements from '../../components/Custom/MultipleAdjacent/MultipleAdjacentElements'
 import Auxilliary from '../../hoc/Auxilliary/Auxilliary'
+import WithClass from '../../hoc/WithClass/WithClass'
 
 const App = props => {
     const initialState = {
@@ -47,7 +48,7 @@ const App = props => {
     const [viewPeople, setViewPeople] = useState(false)
 
     return (
-        <div className={styles.app}>
+        <WithClass classes={styles.app}>
             <Cockpit
                 title={props.title}
                 setPeople={() => setPeople(initialState)}
@@ -69,7 +70,7 @@ const App = props => {
                     <MultipleAdjacentElements />
                 </Auxilliary>
             </div>
-        </div>
+        </WithClass>
     )
 }
 
