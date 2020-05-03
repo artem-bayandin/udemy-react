@@ -11,7 +11,7 @@ const person = (props) => {
     }
 
     return (
-        <div className={styles.person}>
+        <>
             <p>My name is {props.name} and I'm {props.age} years old</p>
             <p>{props.children}</p>
             <p>
@@ -21,9 +21,8 @@ const person = (props) => {
                 <button onClick={(ev) => addAgeClickHandler(ev)}>add age to {props.name}</button>
                 <button onClick={props.click}>delete</button>
             </div>
-        </div>
+        </>
     )
 }
 
-// export default withClass(person, styles.person)
-export default person
+export default withClass(person, styles.person)
