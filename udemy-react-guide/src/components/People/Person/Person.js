@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import styles from './Person.module.css'
 import withClass from '../../../hoc/WithClass/withClassFunc'
+import AuthContext from '../../../context/auth-context'
 
 const person = (props) => {
     const addAgeClickHandler = (ev) => {
@@ -12,6 +13,7 @@ const person = (props) => {
 
     return (
         <>
+            <AuthContext.Consumer>{(context) => context.authenticated ? <p>auth:true</p> : <p>auth:false</p>}</AuthContext.Consumer>
             <p>My name is {props.name} and I'm {props.age} years old</p>
             <p>{props.children}</p>
             <p>

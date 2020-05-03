@@ -5,6 +5,7 @@ import Cockpit from '../../components/Cockpit/Cockpit'
 import MultipleAdjacentElements from '../../components/Custom/MultipleAdjacent/MultipleAdjacentElements'
 import Auxilliary from '../../hoc/Auxilliary/Auxilliary'
 import WithClass from '../../hoc/WithClass/WithClass'
+import AuthContext from '../../context/auth-context'
 
 const App = props => {
     const initialState = {
@@ -47,24 +48,31 @@ const App = props => {
 
     const [viewPeople, setViewPeople] = useState(false)
 
+    const [authenticated, setAuthenticated] = useState(false)
+
+    const loginHandler = () => setAuthenticated(prevState => !prevState)
+
     return (
         <WithClass classes={styles.app}>
-            <Cockpit
-                title={props.title}
-                setPeople={() => setPeople(initialState)}
-                addAgeToAll={addAgeToAll}
-                setViewPeople={() => setViewPeople(prevState => !prevState)}
-                peopleCount={peopleState.people.length}
-            />
-            {
-                viewPeople &&
-                <PeopleList
-                    people={peopleState.people}
-                    makeOneOlderHandler={makeOneOlderHandler}
-                    nameChangedHandler={nameChangedHandler}
-                    deletePersonById={deletePersonById}
+            <AuthContext.Provider value={{authenticated: authenticated, login: loginHandler}}>
+                <Cockpit
+                    title={props.title}
+                    setPeople={() => setPeople(initialState)}
+                    addAgeToAll={addAgeToAll}
+                    setViewPeople={() => setViewPeople(prevState => !prevState)}
+                    peopleCount={peopleState.people.length}
+                    login={loginHandler}
                 />
-            }
+                {
+                    viewPeople &&
+                    <PeopleList
+                        people={peopleState.people}
+                        makeOneOlderHandler={makeOneOlderHandler}
+                        nameChangedHandler={nameChangedHandler}
+                        deletePersonById={deletePersonById}
+                    />
+                }
+            </AuthContext.Provider>
             <div>
                 <Auxilliary>
                     <MultipleAdjacentElements />
