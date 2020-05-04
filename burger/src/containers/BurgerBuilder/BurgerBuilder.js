@@ -6,6 +6,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 
 import axios from '../../axios-orders-firebase'
 import Spinner from "../../components/UI/Spinner/Spinner"
+import withErrorHandler from "../../hoc/withErrorHandling/withErrorHandler"
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -15,13 +16,6 @@ const INGREDIENT_PRICES = {
 }
 
 const BurgerBuilder = (props) => {
-    const initialIngredients = {
-        salad: 1,
-        bacon: 1,
-        cheese: 2,
-        meat: 2,
-    }
-
     const [btnsDisabled, setBtnsDisabled] = useState({
         salad: false,
         bacon: false,
@@ -29,13 +23,15 @@ const BurgerBuilder = (props) => {
         meat: false,
     })
 
-    const [ingredients, setIngredients] = useState(initialIngredients)
+    const [ingredients, setIngredients] = useState(null)
     const [price, setPrice] = useState(0)
     const [purchasable, setPurchasable] = useState(false)
     const [purchasing, setPurchasing] = useState(false)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        if (!ingredients) return
+
         recalculatePrice() // temporary solution as we use 'initialState'
         
         setBtnsDisabled({
@@ -47,11 +43,14 @@ const BurgerBuilder = (props) => {
 
         setPurchasable(ingredients.salad || ingredients.bacon || ingredients.cheese || ingredients.meat)
     }, [
-        ingredients.salad,
-        ingredients.bacon,
-        ingredients.cheese,
-        ingredients.meat,
+        ingredients
     ])
+
+    useEffect(() => {
+        axios.get('/ingredients.json')
+            .then(resp => setIngredients(resp.data))
+            .catch(err => {})
+    }, [])
 
     const recalculatePrice = () => {
         setPrice(
@@ -117,25 +116,34 @@ const BurgerBuilder = (props) => {
                 {
                     loading
                         ? <Spinner />
-                        : <OrderSummary
-                            ingredients={ingredients}
-                            cancelPurchase={purchaseCancelHandler}
-                            continuePurchase={purchaseContinueHandler}
-                            price={price}
-                          />
+                        : ingredients
+                            ? <OrderSummary
+                                    ingredients={ingredients}
+                                    cancelPurchase={purchaseCancelHandler}
+                                    continuePurchase={purchaseContinueHandler}
+                                    price={price}
+                              />
+                            : null
                 }
             </Modal>
-            <Burger ingredients={ingredients} />
-            <BuildControls
-                ingredientAdded={addIngredientHandler}
-                ingredientRemoved={removeIngredientHandler}
-                btnsDisabled={btnsDisabled}
-                price={price}
-                purchasable={purchasable}
-                purchase={purchaseHandler}
-            />
+            {
+                ingredients
+                    ? 
+                    <>
+                        <Burger ingredients={ingredients} />
+                        <BuildControls
+                            ingredientAdded={addIngredientHandler}
+                            ingredientRemoved={removeIngredientHandler}
+                            btnsDisabled={btnsDisabled}
+                            price={price}
+                            purchasable={purchasable}
+                            purchase={purchaseHandler}
+                        />
+                    </>
+                    : <Spinner />
+            }
         </>
     )
 }
 
-export default BurgerBuilder
+export default withErrorHandler(BurgerBuilder, axios)
