@@ -4,6 +4,9 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls"
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 
+import axios from '../../axios-orders-firebase'
+import Spinner from "../../components/UI/Spinner/Spinner"
+
 const INGREDIENT_PRICES = {
     salad: 0.5,
     bacon: 0.7,
@@ -30,6 +33,7 @@ const BurgerBuilder = (props) => {
     const [price, setPrice] = useState(0)
     const [purchasable, setPurchasable] = useState(false)
     const [purchasing, setPurchasing] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         recalculatePrice() // temporary solution as we use 'initialState'
@@ -83,19 +87,43 @@ const BurgerBuilder = (props) => {
     const purchaseCancelHandler = () => {setPurchasing(false)}
 
     const purchaseContinueHandler = () => {
-        alert('continue')
-        setPurchasing(false)
+        const order = {
+            ingredients,
+            price: price.toFixed(2),
+            customer: 'John Doe',
+            address: {
+                contry: 'UK',
+                city: 'London'
+            },
+            email: 'mail@gmail.com'
+        }
+        setLoading(true)
+        axios.post('/orders.json', order)
+            .then(resp => {
+                console.log('saved', resp)
+            })
+            .catch(err => {
+                console.log('saved err', err)
+            })
+            .finally(() => {
+                setLoading(false)
+                setPurchasing(false)
+            })
     }
 
     return (
         <>
             <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
-                <OrderSummary
-                    ingredients={ingredients}
-                    cancelPurchase={purchaseCancelHandler}
-                    continuePurchase={purchaseContinueHandler}
-                    price={price}
-                />
+                {
+                    loading
+                        ? <Spinner />
+                        : <OrderSummary
+                            ingredients={ingredients}
+                            cancelPurchase={purchaseCancelHandler}
+                            continuePurchase={purchaseContinueHandler}
+                            price={price}
+                          />
+                }
             </Modal>
             <Burger ingredients={ingredients} />
             <BuildControls
