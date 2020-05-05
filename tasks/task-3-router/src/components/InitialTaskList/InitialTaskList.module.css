@@ -1,0 +1,10 @@
+.InitialTaskList {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.InitialTaskList ol li {
+    margin-bottom: 5px;
+}
