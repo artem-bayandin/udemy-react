@@ -4,7 +4,7 @@ import styles from './Burger.module.css'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 
 const Burger = props => {
-    let strangeTransformation = Object.keys(props.ingredients)
+    let strangeTransformation = Object.keys(props.ingredients || {})
         .map(key => {
             return [...Array(props.ingredients[key])]
                 .map((_, index) => {

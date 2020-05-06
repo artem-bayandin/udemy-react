@@ -47,9 +47,13 @@ const BurgerBuilder = (props) => {
     ])
 
     useEffect(() => {
-        axios.get('/ingredients.json')
+        if (!props.location.state) {
+            axios.get('/ingredients.json')
             .then(resp => setIngredients(resp.data))
             .catch(err => {})
+        } else {
+            setIngredients(props.location.state)
+        }
     }, [])
 
     const recalculatePrice = () => {
@@ -86,28 +90,7 @@ const BurgerBuilder = (props) => {
     const purchaseCancelHandler = () => {setPurchasing(false)}
 
     const purchaseContinueHandler = () => {
-        const order = {
-            ingredients,
-            price: price.toFixed(2),
-            customer: 'John Doe',
-            address: {
-                contry: 'UK',
-                city: 'London'
-            },
-            email: 'mail@gmail.com'
-        }
-        setLoading(true)
-        axios.post('/orders.json', order)
-            .then(resp => {
-                console.log('saved', resp)
-            })
-            .catch(err => {
-                console.log('saved err', err)
-            })
-            .finally(() => {
-                setLoading(false)
-                setPurchasing(false)
-            })
+        props.history.push('/checkout', {ingredients, price})
     }
 
     return (
