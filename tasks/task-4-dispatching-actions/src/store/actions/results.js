@@ -8,7 +8,8 @@ export const store = (value) => {
     }
 }
 export const storeAsync = (value) => {
-    return dispatch => {
+    return (dispatch, getState) => {
+        console.log('don\'t use getState in thunks) but before executing action we have so many items in history:', getState().resultsSection.history.length)
         setTimeout(() => {
             dispatch(store(value))
         }, 2000)
