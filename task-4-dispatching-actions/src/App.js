@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import styles from './App.module.css'
 
+import * as actionTypes from './store/actions'
+
 const App = props => {
     const deleteItem = (ev, id) => {
         ev.preventDefault()
@@ -17,7 +19,7 @@ const App = props => {
             <div className={styles.Btn} onClick={() => props.appAdd(10)}>add 10</div>
             <div className={styles.Btn} onClick={() => props.appSub(3)}>sub 3</div>
 
-            <div className={styles.Btn} onClick={props.appStore}>store</div>
+            <div className={styles.Btn} onClick={() => props.appStore(props.appCounter)}>store</div>
             <div className={styles.Btn} onClick={props.appDelete}>delete</div>
 
             <div className={styles.History}>
@@ -35,20 +37,20 @@ const App = props => {
 
 const mapStateToProps = (state) => {
     return {
-        appCounter: state.counter,
-        appHistory: state.history
+        appCounter: state.counterSection.counter,
+        appHistory: state.resultsSection.history
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        appIncrement: () => dispatch({ type: "INCREMENT" }),
-        appDecrement: () => dispatch({ type: "DECREMENT" }),
-        appAdd: (value) => dispatch({ type: "ADD", payload: value }),
-        appSub: (value) => dispatch({ type: "SUB", payload: value }),
-        appStore: () => dispatch({ type: "STORE" }),
-        appDelete: () => dispatch({ type: "DELETE" }),
-        appDeleteItem: (id) => dispatch({ type: "DELETE_ITEM", payload: { id } })
+        appIncrement: () => dispatch({ type: actionTypes.INCREMENT }),
+        appDecrement: () => dispatch({ type: actionTypes.DECREMENT }),
+        appAdd: (value) => dispatch({ type: actionTypes.ADD, payload: value }),
+        appSub: (value) => dispatch({ type: actionTypes.SUB, payload: value }),
+        appStore: (value) => dispatch({ type: actionTypes.STORE, payload: value }),
+        appDelete: () => dispatch({ type: actionTypes.DELETE }),
+        appDeleteItem: (id) => dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } })
     };
 };
 
