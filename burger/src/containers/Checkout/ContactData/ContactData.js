@@ -7,6 +7,9 @@ import styles from './ContactData.module.css'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
+import { connect } from 'react-redux'
+import { CLEAR_ORDER } from '../../../store/actions'
+
 const ContactData = (props) => {
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({})
@@ -86,8 +89,15 @@ const ContactData = (props) => {
     const orderHandler = (ev) => {
         ev.preventDefault()
 
-        if (typeof price !== 'number' || Object.keys(props.ingredients).length === 0) {
-            console.log('some data is incorrect')
+        let hasAnyIngredient = false
+        for (var key in props.ingredients) {
+            if (props.ingredients[key] > 0) {
+                hasAnyIngredient = true
+                break
+            }
+        }
+        if (!hasAnyIngredient) {
+            console.log('no ingredients found')
             return
         }
 
@@ -107,6 +117,7 @@ const ContactData = (props) => {
         axios.post('/orders.json', order)
             .then(resp => {
                 console.log('saved', resp)
+                props.clearOrder()
             })
             .catch(err => {
                 console.log('saved err', err)
@@ -191,4 +202,17 @@ const ContactData = (props) => {
     )
 }
 
-export default ContactData
+const mapState = state => {
+    return {
+        ingredients: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+const mapDispatch = dispatch => {
+    return {
+        clearOrder: () => dispatch({type: CLEAR_ORDER})
+    }
+}
+
+export default connect(mapState, mapDispatch)(ContactData)

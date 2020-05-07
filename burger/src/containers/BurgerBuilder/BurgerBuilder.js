@@ -8,12 +8,8 @@ import axios from '../../axios-orders-firebase'
 import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../../hoc/withErrorHandling/withErrorHandler"
 
-const INGREDIENT_PRICES = {
-    salad: 0.5,
-    bacon: 0.7,
-    cheese: 0.4,
-    meat: 1.3,
-}
+import { connect } from 'react-redux'
+import { ADD_INGREDIENT, REM_INGREDIENT } from '../../store/actions'
 
 const BurgerBuilder = (props) => {
     const [btnsDisabled, setBtnsDisabled] = useState({
@@ -23,74 +19,31 @@ const BurgerBuilder = (props) => {
         meat: false,
     })
 
-    const [ingredients, setIngredients] = useState(null)
-    const [price, setPrice] = useState(0)
     const [purchasable, setPurchasable] = useState(false)
     const [purchasing, setPurchasing] = useState(false)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (!ingredients) return
+        if (!props.ingredients) return
 
-        recalculatePrice() // temporary solution as we use 'initialState'
-        
         setBtnsDisabled({
-            salad: !ingredients.salad,
-            bacon: !ingredients.bacon,
-            cheese: !ingredients.cheese,
-            meat: !ingredients.meat,
+            salad: !props.ingredients.salad,
+            bacon: !props.ingredients.bacon,
+            cheese: !props.ingredients.cheese,
+            meat: !props.ingredients.meat,
         })
 
-        setPurchasable(ingredients.salad || ingredients.bacon || ingredients.cheese || ingredients.meat)
+        setPurchasable(props.ingredients.salad || props.ingredients.bacon || props.ingredients.cheese || props.ingredients.meat)
     }, [
-        ingredients
+        props.ingredients
     ])
-
-    useEffect(() => {
-        if (!props.location.state) {
-            axios.get('/ingredients.json')
-            .then(resp => setIngredients(resp.data))
-            .catch(err => {})
-        } else {
-            setIngredients(props.location.state)
-        }
-    }, [])
-
-    const recalculatePrice = () => {
-        setPrice(
-            recalculateSingleIngredientPrice("salad") +
-                recalculateSingleIngredientPrice("bacon") +
-                recalculateSingleIngredientPrice("cheese") +
-                recalculateSingleIngredientPrice("meat")
-        )
-    }
-
-    const recalculateSingleIngredientPrice = (type) => ingredients[type] * INGREDIENT_PRICES[type]
-
-    const removeIngredientHandler = (type) => {
-        setIngredients((prevState) => {
-            let oldValue = prevState[type]
-            let newValue = oldValue > 0 ? oldValue - 1 : oldValue
-            const newState = { ...prevState }
-            newState[type] = newValue
-            return newState
-        })
-    }
-
-    const addIngredientHandler = (type) => {
-        setIngredients((prevState) => {
-            const newState = { ...prevState }
-            newState[type] = prevState[type] + 1
-            return newState
-        })
-    }
 
     const purchaseHandler = () => setPurchasing(true)
 
     const purchaseCancelHandler = () => {setPurchasing(false)}
 
     const purchaseContinueHandler = () => {
-        props.history.push('/checkout', {ingredients, price})
+        props.history.push('/checkout')
     }
 
     return (
@@ -99,26 +52,26 @@ const BurgerBuilder = (props) => {
                 {
                     loading
                         ? <Spinner />
-                        : ingredients
+                        : props.ingredients
                             ? <OrderSummary
-                                    ingredients={ingredients}
+                                    ingredients={props.ingredients}
                                     cancelPurchase={purchaseCancelHandler}
                                     continuePurchase={purchaseContinueHandler}
-                                    price={price}
+                                    price={props.price}
                               />
                             : null
                 }
             </Modal>
             {
-                ingredients
+                props.ingredients
                     ? 
                     <>
-                        <Burger ingredients={ingredients} />
+                        <Burger ingredients={props.ingredients} />
                         <BuildControls
-                            ingredientAdded={addIngredientHandler}
-                            ingredientRemoved={removeIngredientHandler}
+                            ingredientAdded={props.addIngredient}
+                            ingredientRemoved={props.remIngredient}
                             btnsDisabled={btnsDisabled}
-                            price={price}
+                            price={props.price}
                             purchasable={purchasable}
                             purchase={purchaseHandler}
                         />
@@ -129,4 +82,18 @@ const BurgerBuilder = (props) => {
     )
 }
 
-export default withErrorHandler(BurgerBuilder, axios)
+const mapState = state => {
+    return {
+        ingredients: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+const mapDispatch = dispatch => {
+    return {
+        addIngredient: name => dispatch({type: ADD_INGREDIENT, payload: {name}}),
+        remIngredient: name => dispatch({type: REM_INGREDIENT, payload: {name}})
+    }
+}
+
+export default connect(mapState, mapDispatch)(withErrorHandler(BurgerBuilder, axios))

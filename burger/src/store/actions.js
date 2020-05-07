@@ -1,0 +1,3 @@
+export const ADD_INGREDIENT = 'ADD_INGREDIENT'
+export const REM_INGREDIENT = 'REM_INGREDIENT'
+export const CLEAR_ORDER = 'CLEAR_ORDER'

@@ -5,8 +5,9 @@ import Button from '../../UI/Button/Button'
 
 import styles from './CheckoutSummary.module.css'
 
-const CheckoutSummary = (props) => {
+import { connect } from 'react-redux'
 
+const CheckoutSummary = (props) => {
     return (
         <div className={styles.CheckoutSummary}>
             <h1>We hope it tastes well</h1>
@@ -25,4 +26,10 @@ const CheckoutSummary = (props) => {
     )
 }
 
-export default CheckoutSummary
+const mapState = state => {
+    return {
+        ingredients: state.ingredients
+    }
+}
+
+export default connect(mapState)(CheckoutSummary)

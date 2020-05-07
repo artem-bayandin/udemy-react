@@ -6,19 +6,11 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import styles from './Checkout.module.css'
 import ContactData from './ContactData/ContactData'
 
+import { connect } from 'react-redux'
+
 const Checkout = (props) => {
-    const [ingredients, setIngredients] = useState({})
-    const [price, setPrice] = useState({})
-
-    useEffect(() => {
-        if (props.location.state) {
-            setIngredients(props.location.state.ingredients)
-            setPrice(props.location.state.price)
-        }
-    }, [props.location.state])
-
     const checkoutCancelled = () => {
-        props.history.push('/', ingredients);
+        props.history.push('/');
     }
 
     const checkoutContinued = () => {
@@ -28,17 +20,23 @@ const Checkout = (props) => {
     return (
         <div>
             <CheckoutSummary
-                ingredients={ingredients}
                 onCheckoutCancelled={checkoutCancelled}
                 onCheckoutContinued={checkoutContinued}
             />
             <Route
                 path={props.match.url + '/contact-data'}
-                // component={ContactData}
-                render={(props) => (<ContactData ingredients={ingredients} price={price} {...props}/>)}
+                component={ContactData}
+                // render={(props) => (<ContactData ingredients={props.ingredients} price={props.price} {...props}/>)}
             />
         </div>
     )
 }
 
-export default Checkout
+const mapState = state => {
+    return {
+        ingredients: state.ingredients,
+        price: state.totalPrice
+    }
+}
+
+export default connect(mapState)(Checkout)
