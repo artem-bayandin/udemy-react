@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import styles from './App.module.css'
 
 import { increment, decrement, add, sub, store, del, delItem } from './store/actions/actions'
+import { incrementAsync, decrementAsync, addAsync, subAsync, storeAsync, delAsync, delItemAsync } from './store/actions/actions'
 
 const App = props => {
     const deleteItem = (ev, id) => {
@@ -48,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
         appDecrement: () => dispatch(decrement()),
         appAdd: (value) => dispatch(add(value)),
         appSub: (value) => dispatch(sub(value)),
-        appStore: (value) => dispatch(store(value)),
+        appStore: (value) => dispatch(storeAsync(value)),
         appDelete: () => dispatch(del()),
         appDeleteItem: (id) => dispatch(delItem(id))
     };
