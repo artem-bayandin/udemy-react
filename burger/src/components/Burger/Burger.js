@@ -4,9 +4,15 @@ import styles from './Burger.module.css'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 
 const Burger = props => {
-    let strangeTransformation = Object.keys(props.ingredients || {})
+    const formattedBurger = {
+        salad: props.ingredients.salad,
+        bacon: props.ingredients.bacon,
+        cheese: props.ingredients.cheese,
+        meat: props.ingredients.meat
+    }
+    let strangeTransformation = Object.keys(formattedBurger || {})
         .map(key => {
-            return [...Array(props.ingredients[key])]
+            return [...Array(formattedBurger[key])]
                 .map((_, index) => {
                     return <BurgerIngredient key={key + index} type={key} />
                 })

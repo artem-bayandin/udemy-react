@@ -1,1 +1,1 @@
-export { addIngredient, addIngredientAsync, removeIngredient, removeIngredientAsync, clearOrder, clearOrderAsync } from './order'
+export { addIngredient, addIngredientAsync, removeIngredient, removeIngredientAsync, clearOrder, clearOrderAsync, fetchIngredients } from './order'

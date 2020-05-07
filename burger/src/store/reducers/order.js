@@ -1,13 +1,9 @@
-import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER } from '../actionTypes/order'
+import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER, SET_INGREDIENTS, FETCH_INGREDIENTS_FAILED } from '../actionTypes/order'
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
-    },
-    totalPrice: 0
+    ingredients: null,
+    totalPrice: 0,
+    error: false
 }
 
 const INGREDIENT_PRICES = {
@@ -58,6 +54,25 @@ const orderReducer = (state = initialState, action) => {
                 ...state,
                 ingredients: {...initialState.ingredients},
                 totalPrice: 0
+            }
+        }
+        case SET_INGREDIENTS: {
+            return {
+                ...state,
+                ingredients: {
+                    salad: action.payload.salad,
+                    bacon: action.payload.bacon,
+                    cheese: action.payload.cheese,
+                    meat: action.payload.meat
+                },
+                totalPrice: updatePrice(action.payload),
+                error: false
+            }
+        }
+        case FETCH_INGREDIENTS_FAILED: {
+            return {
+                ...state,
+                error: true
             }
         }
         default: 

@@ -1,4 +1,5 @@
-import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER } from '../actionTypes/order'
+import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER, FETCH_INGREDIENTS, FETCH_INGREDIENTS_FAILED, SET_INGREDIENTS } from '../actionTypes/order'
+import axios from '../../axios-orders-firebase'
 
 const defaultTimeout = 500;
 
@@ -47,5 +48,26 @@ export const clearOrderAsync = () => {
         setTimeout(() => {
             dispatch(clearOrder())
         }, defaultTimeout);
+    }
+}
+
+export const setIngredients = (data) => {
+    return {
+        type: SET_INGREDIENTS,
+        payload: data
+    }
+}
+
+export const fetchIngredientsFailed = () => {
+    return {
+        type: FETCH_INGREDIENTS_FAILED
+    }
+}
+
+export const fetchIngredients = () => {
+    return dispatch => {
+        axios.get('/ingredients.json')
+            .then(resp => dispatch(setIngredients(resp.data)))
+            .catch(err => dispatch(fetchIngredientsFailed()))
     }
 }
