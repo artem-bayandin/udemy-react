@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 
 import styles from './App.module.css'
 
-import { increment, decrement, add, sub, store, del, delItem } from './store/actions/actions'
-import { incrementAsync, decrementAsync, addAsync, subAsync, storeAsync, delAsync, delItemAsync } from './store/actions/actions'
+import { increment, decrement, add, sub } from './store/actions/index'
+import { incrementAsync, decrementAsync, addAsync, subAsync } from './store/actions/index'
+import { store, del, delItem } from './store/actions/index'
+import { storeAsync, delAsync, delItemAsync } from './store/actions/index'
 
 const App = props => {
     const deleteItem = (ev, id) => {

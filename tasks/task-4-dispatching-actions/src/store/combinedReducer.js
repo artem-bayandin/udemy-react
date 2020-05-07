@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import counterReducer from './reducers/counterReducer'
-import resultsReducer from './reducers/resultsReducer'
+import counterReducer from './reducers/counter'
+import resultsReducer from './reducers/results'
 
 const combinedReducer = combineReducers({
     counterSection: counterReducer,
