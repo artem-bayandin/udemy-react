@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import styles from './App.module.css'
 
-import * as actionTypes from './store/actions'
+import { increment, decrement, add, sub, store, del, delItem } from './store/actions/actions'
 
 const App = props => {
     const deleteItem = (ev, id) => {
@@ -44,13 +44,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        appIncrement: () => dispatch({ type: actionTypes.INCREMENT }),
-        appDecrement: () => dispatch({ type: actionTypes.DECREMENT }),
-        appAdd: (value) => dispatch({ type: actionTypes.ADD, payload: value }),
-        appSub: (value) => dispatch({ type: actionTypes.SUB, payload: value }),
-        appStore: (value) => dispatch({ type: actionTypes.STORE, payload: value }),
-        appDelete: () => dispatch({ type: actionTypes.DELETE }),
-        appDeleteItem: (id) => dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } })
+        appIncrement: () => dispatch(increment()),
+        appDecrement: () => dispatch(decrement()),
+        appAdd: (value) => dispatch(add(value)),
+        appSub: (value) => dispatch(sub(value)),
+        appStore: (value) => dispatch(store(value)),
+        appDelete: () => dispatch(del()),
+        appDeleteItem: (id) => dispatch(delItem(id))
     };
 };
 
