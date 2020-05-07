@@ -28,7 +28,7 @@ const CheckoutSummary = (props) => {
 
 const mapState = state => {
     return {
-        ingredients: state.ingredients
+        ingredients: state.order.ingredients
     }
 }
 

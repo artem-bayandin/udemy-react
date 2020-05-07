@@ -1,72 +1,10 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
 
-import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER } from './actions'
+import logger from './middlewares/logger'
+import reducer from './reducers/index'
 
-const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
-    },
-    totalPrice: 0
-}
-
-const INGREDIENT_PRICES = {
-    salad: 0.5,
-    bacon: 0.7,
-    cheese: 0.4,
-    meat: 1.3,
-}
-
-const updatePrice = (newIngredients) => {
-    return updateSinglePrice(newIngredients, 'salad') +
-           updateSinglePrice(newIngredients, 'bacon') +
-           updateSinglePrice(newIngredients, 'cheese') +
-           updateSinglePrice(newIngredients, 'meat')
-}
-
-const updateSinglePrice = (arr, name) => arr[name] * INGREDIENT_PRICES[name]
-
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case ADD_INGREDIENT: {
-            const newIngredients = {
-                ...state.ingredients,
-                [action.payload.name]: state.ingredients[action.payload.name] + 1
-            }
-            return {
-                ...state,
-                ingredients: newIngredients,
-                totalPrice: updatePrice(newIngredients)
-            }
-        }
-        case REM_INGREDIENT: {
-            const newValue = state.ingredients[action.payload.name] > 0
-                ? state.ingredients[action.payload.name] - 1
-                : 0
-            const newIngredients = {
-                ...state.ingredients,
-                [action.payload.name]: newValue
-            }
-            return {
-                ...state,
-                ingredients: newIngredients,
-                totalPrice: updatePrice(newIngredients)
-            }
-        }
-        case CLEAR_ORDER: {
-            return {
-                ...state,
-                ingredients: {...initialState.ingredients},
-                totalPrice: 0
-            }
-        }
-        default: 
-            return state
-    }
-}
-
-const store = createStore(reducer)
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, /* preloadedState, */ composeEnhancers(applyMiddleware(logger, thunk)));
 
 export default store

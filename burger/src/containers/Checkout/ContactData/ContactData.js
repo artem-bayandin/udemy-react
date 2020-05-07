@@ -8,7 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
 import { connect } from 'react-redux'
-import { CLEAR_ORDER } from '../../../store/actions'
+import { clearOrderAsync } from '../../../store/actions/order'
 
 const ContactData = (props) => {
     const [loading, setLoading] = useState(false)
@@ -204,14 +204,14 @@ const ContactData = (props) => {
 
 const mapState = state => {
     return {
-        ingredients: state.ingredients,
-        price: state.totalPrice
+        ingredients: state.order.ingredients,
+        price: state.order.totalPrice
     }
 }
 
 const mapDispatch = dispatch => {
     return {
-        clearOrder: () => dispatch({type: CLEAR_ORDER})
+        clearOrder: () => dispatch(clearOrderAsync())
     }
 }
 
