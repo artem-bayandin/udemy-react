@@ -8,7 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
 import { connect } from 'react-redux'
-import { clearOrderAsync } from '../../../store/actions/ingredient'
+import { clearOrderAsync } from '../../../store/actions/index'
 
 const ContactData = (props) => {
     const [loading, setLoading] = useState(false)
@@ -204,8 +204,8 @@ const ContactData = (props) => {
 
 const mapState = state => {
     return {
-        ingredients: state.order.ingredients,
-        price: state.order.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice
     }
 }
 

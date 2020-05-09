@@ -89,9 +89,8 @@ const BurgerBuilder = (props) => {
 const mapState = state => {
     console.log(state)
     return {
-        ingredients: state.order.ingredients,
-        price: state.order.totalPrice,
-        // error: state.order.error
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice
     }
 }
 

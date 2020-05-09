@@ -4,7 +4,7 @@ import {
     , CLEAR_ORDER
     , SET_INGREDIENTS
     , FETCH_INGREDIENTS_FAILED
-} from '../actionTypes/ingredient'
+} from '../actionTypes/burgerBuilder'
 
 const initialState = {
     ingredients: null,
@@ -28,7 +28,7 @@ const updatePrice = (newIngredients) => {
 
 const updateSinglePrice = (arr, name) => arr[name] * INGREDIENT_PRICES[name]
 
-const orderReducer = (state = initialState, action) => {
+const burgerBuilderReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT: {
             const newIngredients = {
@@ -86,4 +86,4 @@ const orderReducer = (state = initialState, action) => {
     }
 }
 
-export default orderReducer
+export default burgerBuilderReducer

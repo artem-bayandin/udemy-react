@@ -6,4 +6,4 @@ export {
     , clearOrder
     , clearOrderAsync
     , fetchIngredients
-} from './ingredient'
+} from './burgerBuilder'

@@ -34,8 +34,8 @@ const Checkout = (props) => {
 
 const mapState = state => {
     return {
-        ingredients: state.order.ingredients,
-        price: state.order.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice
     }
 }
 

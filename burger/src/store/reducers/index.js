@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import orderReducer from './ingredient'
+import burgerBuilderReducer from './burgerBuilder'
 
 const reducer = combineReducers({
-    order: orderReducer
+    burgerBuilder: burgerBuilderReducer
 })
 
 export default reducer
