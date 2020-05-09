@@ -2,7 +2,7 @@ import { PURCHASE_ORDER_SUCCESS, PURCHASE_ORDER_FAILED, PURCHASE_ORDER_START, PU
     , FETCH_ORDERS_INIT, FETCH_ORDERS_START, FETCH_ORDERS_SUCCESS, FETCH_ORDERS_FAILED
 } from "../actionTypes/order";
 
-import { updateObject } from '../utility'
+import { updateObject } from '../../shared/utility'
 
 const initialState = {
     orders: [],

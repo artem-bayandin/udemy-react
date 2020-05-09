@@ -8,7 +8,7 @@ import {
     , LOGOUT
     , SET_USER_DATA
 } from '../actionTypes/auth'
-import { updateObject } from '../utility'
+import { updateObject } from '../../shared/utility'
 
 const initialState = {
     loading: false,

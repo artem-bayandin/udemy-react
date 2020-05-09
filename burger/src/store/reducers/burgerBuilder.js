@@ -6,7 +6,7 @@ import {
     , FETCH_INGREDIENTS_FAILED
 } from '../actionTypes/burgerBuilder'
 
-import { updateObject } from '../utility'
+import { updateObject } from '../../shared/utility'
 
 const initialState = {
     ingredients: null,
