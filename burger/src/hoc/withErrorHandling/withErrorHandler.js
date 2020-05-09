@@ -7,18 +7,33 @@ import Modal from "../../components/UI/Modal/Modal";
 
 const withErrorHandler = (WrappedComponent, axios) => (props) => {
     const [error, setError] = useState(null);
+    const [errorHandled, setErrorHandled] = useState(false)
     const interceptors = {
         req: null,
         res: null,
     }
     useEffect(() => {
-        interceptors.req = axios.interceptors.request.use((req) => {
-            setError(null);
-            return req;
-        });
+        interceptors.req = axios.interceptors.request.use(
+            (req) => {
+                console.log('[withErrorHandler req]')
+                setError(null);
+                return req;
+            },
+            (err) => {
+                console.log('[withErrorHandler err]', err)
+                setError(err)
+            }
+        );
         interceptors.res = axios.interceptors.response.use(
-            (res) => res,
-            (err) => setError(err)
+            (res) => {
+                console.log('[withErrorHandler resp]')
+                setError(null);
+                return res;
+            },
+            (err) => {
+                console.log('[withErrorHandler err]', err)
+                setError(err)
+            }
         );
 
         return () => {
@@ -30,15 +45,17 @@ const withErrorHandler = (WrappedComponent, axios) => (props) => {
         };
     }, []);
 
+    const handleModalClosed = ev => {
+        setErrorHandled(true)
+        setTimeout(() => {
+            setError(null)
+        }, 100);
+    }
+
     return (
         <>
-            {error ? (
-                <Modal show modalClosed={() => setError(null)}>
-                    {error.message}
-                </Modal>
-            ) : (
-                <WrappedComponent {...props} />
-            )}
+            {error && <Modal show modalClosed={handleModalClosed}>{error.message}</Modal>}
+            {!error && !errorHandled && <WrappedComponent {...props} />}
         </>
     );
 };

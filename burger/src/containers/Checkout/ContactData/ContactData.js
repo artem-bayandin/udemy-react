@@ -37,7 +37,7 @@ const ContactData = (props) => {
                     type: 'email',
                     placeholder: 'Your email'
                 },
-                value: 'j.doe@gmail.com',
+                value: props.email,
                 isValid: false,
                 validationRules: {
                     required: true,
@@ -112,9 +112,12 @@ const ContactData = (props) => {
                 street: formData.street.value,
                 postalCode: formData.postalCode.value
             },
-            email: formData.email.value
+
+            userId: props.userId,
+            userName: formData.name.value,
+            userEmail: formData.email.value
         }
-        props.purchaseOrder(order)
+        props.purchaseOrder(order, props.token)
     }
 
     const inputChanged = (ev) => {
@@ -197,14 +200,17 @@ const mapState = state => {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-        purchased: state.order.purchased
+        purchased: state.order.purchased,
+        token: state.auth.token,
+        userId: state.auth.userId,
+        email: state.auth.email
     }
 }
 
 const mapDispatch = dispatch => {
     return {
         clearOrder: () => dispatch(clearOrderAsync()),
-        purchaseOrder: (order) => dispatch(purchaseOrderAsync(order))
+        purchaseOrder: (order, token) => dispatch(purchaseOrderAsync(order, token))
     }
 }
 

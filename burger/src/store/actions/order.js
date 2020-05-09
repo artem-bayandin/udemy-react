@@ -40,10 +40,12 @@ export const purchaseOrderFailed = (err) => {
     }
 }
 
-export const purchaseOrderAsync = (order) => {
+export const purchaseOrderAsync = (order, token) => {
     return dispatch => {
         dispatch(purchaseOrderStart())
-        axios.post('/orders.json', order)
+        const tknStr = token ? '?auth=' + token : ''
+        const url = '/orders.json' + tknStr
+        axios.post(url, order)
             .then(resp => {
                 dispatch(purchaseOrderSuccess(resp.data.name, { ...resp.data }))
             })
@@ -79,10 +81,14 @@ export const fetchOrdersFailed = (err) => {
     }
 }
 
-export const fetchOrdersAsync = () => {
+export const fetchOrdersAsync = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersStart())
-        axios.get('/orders.json')
+        const queryParams = token
+            ? '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"'
+            : ''
+        const url = '/orders.json' + queryParams
+        axios.get(url)
             .then(resp => {
                 const orders = Object.keys(resp.data).map(key => {
                     return {

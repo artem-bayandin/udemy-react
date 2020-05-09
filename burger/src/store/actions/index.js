@@ -14,3 +14,9 @@ export {
     , purchaseInit
     , fetchOrdersAsync
 } from './order'
+export {
+    signup
+    , signin
+    , logout
+    , authCheckState
+} from './auth'

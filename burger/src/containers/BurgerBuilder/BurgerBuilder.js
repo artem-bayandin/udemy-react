@@ -42,7 +42,13 @@ const BurgerBuilder = (props) => {
         props.ingredients
     ])
 
-    const purchaseHandler = () => setPurchasing(true)
+    const purchaseHandler = () => {
+        if (props.isAuthenticated) {
+            setPurchasing(true)
+        } else {
+            props.history.push('/auth', { returnUrl: '/checkout' })
+        }
+    }
 
     const purchaseCancelHandler = () => {setPurchasing(false)}
 
@@ -79,6 +85,7 @@ const BurgerBuilder = (props) => {
                             price={props.price}
                             purchasable={purchasable}
                             purchase={purchaseHandler}
+                            isAuthenticated={props.isAuthenticated}
                         />
                     </>
                     : <Spinner />
@@ -88,10 +95,10 @@ const BurgerBuilder = (props) => {
 }
 
 const mapState = state => {
-    console.log(state)
     return {
         ingredients: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice
+        price: state.burgerBuilder.totalPrice,
+        isAuthenticated: !!state.auth.token
     }
 }
 
