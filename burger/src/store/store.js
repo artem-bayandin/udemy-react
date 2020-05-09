@@ -4,7 +4,14 @@ import thunk from 'redux-thunk'
 import logger from './middlewares/logger'
 import reducer from './reducers/index'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, /* preloadedState, */ composeEnhancers(applyMiddleware(logger, thunk)));
+console.log('[NODE_ENV]', process.env.NODE_ENV)
 
+let middleware = applyMiddleware(logger, thunk)
+
+if (process.env.NODE_ENV === 'development') {
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    middleware = composeEnhancers(middleware)
+}
+
+const store = createStore(reducer, middleware);
 export default store
