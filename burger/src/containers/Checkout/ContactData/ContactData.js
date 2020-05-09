@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { clearOrderAsync, purchaseOrderAsync } from '../../../store/actions/index'
 import withErrorHandler from '../../../hoc/withErrorHandling/withErrorHandler'
 import { Redirect } from 'react-router'
+import { validateInput } from '../../../shared/uivalidation'
 
 const ContactData = (props) => {
     const [formData, setFormData] = useState({})
@@ -140,27 +141,11 @@ const ContactData = (props) => {
     const validateForm = (state) => {
         let validForm = true
         for (let key in state) {
-            state[key].isValid = validate(state[key].value, state[key].validationRules)
+            state[key].isValid = validateInput(state[key].value, state[key].validationRules)
             if (state[key].isValid === undefined) continue
             validForm = validForm && state[key].isValid
         }
         setFormIsValid(validForm)
-    }
-
-    const validate = (value, rules) => {
-        if (!rules) return true
-
-        let isValid = true
-
-        if (rules.required === true) {
-            isValid = isValid && !!value.trim()
-        }
-
-        if (rules.minLength) {
-            isValid = isValid && value.trim().length >= rules.minLength
-        }
-
-        return isValid
     }
 
     return (
