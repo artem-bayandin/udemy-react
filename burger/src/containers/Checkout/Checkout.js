@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
 
@@ -19,10 +19,10 @@ const Checkout = (props) => {
 
     return (
         <div>
-            <CheckoutSummary
+            {props.ingredients ? <CheckoutSummary
                 onCheckoutCancelled={checkoutCancelled}
                 onCheckoutContinued={checkoutContinued}
-            />
+            /> : <Redirect to='/' />}
             <Route
                 path={props.match.url + '/contact-data'}
                 component={ContactData}

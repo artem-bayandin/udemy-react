@@ -8,22 +8,23 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
 import { connect } from 'react-redux'
-import { clearOrderAsync } from '../../../store/actions/index'
+import { clearOrderAsync, purchaseOrderAsync } from '../../../store/actions/index'
+import withErrorHandler from '../../../hoc/withErrorHandling/withErrorHandler'
+import { Redirect } from 'react-router'
 
 const ContactData = (props) => {
-    const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({})
     const [formIsValid, setFormIsValid] = useState(false)
 
     useEffect(() => {
-        setFormData({
+        const formState = {
             name: {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
                     placeholder: 'Your name'
                 },
-                value: '',
+                value: 'John Doe',
                 isValid: false,
                 validationRules: {
                     required: true
@@ -36,7 +37,7 @@ const ContactData = (props) => {
                     type: 'email',
                     placeholder: 'Your email'
                 },
-                value: '',
+                value: 'j.doe@gmail.com',
                 isValid: false,
                 validationRules: {
                     required: true,
@@ -50,7 +51,7 @@ const ContactData = (props) => {
                     type: 'text',
                     placeholder: 'Street'
                 },
-                value: '',
+                value: 'Lenina 1',
                 isValid: false,
                 validationRules: {
                     required: true
@@ -63,7 +64,7 @@ const ContactData = (props) => {
                     type: 'text',
                     placeholder: 'Postal code'
                 },
-                value: '',
+                value: 'A65F99',
                 isValid: false,
                 validationRules: {
                     required: true
@@ -83,7 +84,9 @@ const ContactData = (props) => {
                 },
                 value: 'fastest'
             }
-        })
+        }
+        setFormData(formState)
+        validateForm(formState)
     }, [])
 
     const orderHandler = (ev) => {
@@ -111,22 +114,7 @@ const ContactData = (props) => {
             },
             email: formData.email.value
         }
-
-        console.log(order)
-        setLoading(true)
-        axios.post('/orders.json', order)
-            .then(resp => {
-                console.log('saved', resp)
-                props.clearOrder()
-            })
-            .catch(err => {
-                console.log('saved err', err)
-            })
-            .finally(() => {
-                setLoading(false)
-                console.log('order created')
-                props.history.push('/orders')
-            })
+        props.purchaseOrder(order)
     }
 
     const inputChanged = (ev) => {
@@ -141,21 +129,22 @@ const ContactData = (props) => {
         const newState = {...formData}
         newState[target.name].value = target.value
         newState[target.name].touched = true
-        newState[target.name].isValid = validate(target.name, newState[target.name].value, newState[target.name].validationRules)
 
         setFormData(newState)
+        validateForm(newState)
+    }
 
+    const validateForm = (state) => {
         let validForm = true
-        for (let key in newState) {
-            if (newState[key].isValid === undefined) continue
-            validForm = validForm && newState[key].isValid
+        for (let key in state) {
+            state[key].isValid = validate(state[key].value, state[key].validationRules)
+            if (state[key].isValid === undefined) continue
+            validForm = validForm && state[key].isValid
         }
         setFormIsValid(validForm)
     }
 
-    const validate = (key, value, rules) => {
-        if (!formData[key].validationRules) return true
-
+    const validate = (value, rules) => {
         if (!rules) return true
 
         let isValid = true
@@ -174,8 +163,9 @@ const ContactData = (props) => {
     return (
         <div className={styles.ContactData}>
             <h4>Enter your contact data</h4>
+            {props.purchased && <Redirect to='/' />}
             {
-                loading ? <Spinner />
+                props.loading ? <Spinner />
                         : (
                     <form onSubmit={orderHandler}>
                         {
@@ -205,14 +195,17 @@ const ContactData = (props) => {
 const mapState = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading,
+        purchased: state.order.purchased
     }
 }
 
 const mapDispatch = dispatch => {
     return {
-        clearOrder: () => dispatch(clearOrderAsync())
+        clearOrder: () => dispatch(clearOrderAsync()),
+        purchaseOrder: (order) => dispatch(purchaseOrderAsync(order))
     }
 }
 
-export default connect(mapState, mapDispatch)(ContactData)
+export default connect(mapState, mapDispatch)(withErrorHandler(ContactData, axios))

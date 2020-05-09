@@ -5,3 +5,14 @@ export {
     , FETCH_INGREDIENTS
     , SET_INGREDIENTS
 } from './burgerBuilder'
+export {
+    PURCHASE_INIT
+    , PURCHASE_ORDER_START
+    , PURCHASE_ORDER_SUCCESS
+    , PURCHASE_ORDER_FAILED
+
+    , FETCH_ORDERS_INIT
+    , FETCH_ORDERS_START
+    , FETCH_ORDERS_SUCCESS
+    , FETCH_ORDERS_FAILED
+} from './order'
