@@ -101,7 +101,6 @@ const ContactData = (props) => {
             }
         }
         if (!hasAnyIngredient) {
-            console.log('no ingredients found')
             return
         }
 

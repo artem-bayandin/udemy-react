@@ -15,23 +15,19 @@ const withErrorHandler = (WrappedComponent, axios) => (props) => {
     useEffect(() => {
         interceptors.req = axios.interceptors.request.use(
             (req) => {
-                console.log('[withErrorHandler req]')
                 setError(null);
                 return req;
             },
             (err) => {
-                console.log('[withErrorHandler err]', err)
                 setError(err)
             }
         );
         interceptors.res = axios.interceptors.response.use(
             (res) => {
-                console.log('[withErrorHandler resp]')
                 setError(null);
                 return res;
             },
             (err) => {
-                console.log('[withErrorHandler err]', err)
                 setError(err)
             }
         );

@@ -28,7 +28,6 @@ const authReducer = (state = initialState, action) => {
                 loading: true
             })
         case SIGN_UP_SUCCESS:
-            console.log('[Auth Reducer] sign UP token', action.payload)
             return updateObject(state, { 
                 loading: false, 
                 token: action.payload.token, 
@@ -37,7 +36,6 @@ const authReducer = (state = initialState, action) => {
                 expiresIn: action.payload.expiresIn
             })
         case SIGN_UP_FAILED:
-            console.warn('[Auth Reducer] sign UP failed', action.payload)
             return updateObject(state, { 
                 loading: false, 
                 error: action.payload 
@@ -48,7 +46,6 @@ const authReducer = (state = initialState, action) => {
                 loading: true
             })
         case SIGN_IN_SUCCESS:
-            console.log('[Auth Reducer] sign IN token', action.payload)
             return updateObject(state, { 
                 loading: false, 
                 token: action.payload.token, 
@@ -57,7 +54,6 @@ const authReducer = (state = initialState, action) => {
                 expiresIn: action.payload.expiresIn
             })
         case SIGN_IN_FAILED:
-            console.warn('[Auth Reducer] sign IN failed', action.payload)
             return updateObject(state, { 
                 loading: false, 
                 error: action.payload 
