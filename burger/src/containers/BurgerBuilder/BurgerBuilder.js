@@ -11,7 +11,7 @@ import withErrorHandler from "../../hoc/withErrorHandling/withErrorHandler"
 import { connect } from 'react-redux'
 import { addIngredientAsync, removeIngredientAsync, fetchIngredients, purchaseInit } from "../../store/actions/index"
 
-const BurgerBuilder = (props) => {
+export const BurgerBuilder = (props) => {
     const [btnsDisabled, setBtnsDisabled] = useState({
         salad: false,
         bacon: false,
