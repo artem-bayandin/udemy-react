@@ -6,6 +6,8 @@ import {
     , FETCH_INGREDIENTS_FAILED
 } from '../actionTypes/burgerBuilder'
 
+import { updateObject } from '../utility'
+
 const initialState = {
     ingredients: null,
     totalPrice: 0,
@@ -31,40 +33,34 @@ const updateSinglePrice = (arr, name) => arr[name] * INGREDIENT_PRICES[name]
 const burgerBuilderReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT: {
-            const newIngredients = {
-                ...state.ingredients,
+            const newIngredients = updateObject(state.ingredients, {
                 [action.payload.name]: state.ingredients[action.payload.name] + 1
-            }
-            return {
-                ...state,
+            })
+            return updateObject(state, {
                 ingredients: newIngredients,
                 totalPrice: updatePrice(newIngredients)
-            }
+            })
         }
         case REM_INGREDIENT: {
             const newValue = state.ingredients[action.payload.name] > 0
                 ? state.ingredients[action.payload.name] - 1
                 : 0
-            const newIngredients = {
-                ...state.ingredients,
+            const newIngredients = updateObject(state.ingredients, {
                 [action.payload.name]: newValue
-            }
-            return {
-                ...state,
+            })
+            return updateObject(state, {
                 ingredients: newIngredients,
                 totalPrice: updatePrice(newIngredients)
-            }
+            })
         }
         case CLEAR_ORDER: {
-            return {
-                ...state,
+            return updateObject(state, {
                 ingredients: {...initialState.ingredients},
                 totalPrice: 0
-            }
+            })
         }
         case SET_INGREDIENTS: {
-            return {
-                ...state,
+            return updateObject(state, {
                 ingredients: {
                     salad: action.payload.salad,
                     bacon: action.payload.bacon,
@@ -73,13 +69,12 @@ const burgerBuilderReducer = (state = initialState, action) => {
                 },
                 totalPrice: updatePrice(action.payload),
                 error: false
-            }
+            })
         }
         case FETCH_INGREDIENTS_FAILED: {
-            return {
-                ...state,
+            return updateObject(state, {
                 error: true
-            }
+            })
         }
         default: 
             return state
