@@ -1,4 +1,10 @@
-import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER, SET_INGREDIENTS, FETCH_INGREDIENTS_FAILED } from '../actionTypes/order'
+import {
+    ADD_INGREDIENT
+    , REM_INGREDIENT
+    , CLEAR_ORDER
+    , SET_INGREDIENTS
+    , FETCH_INGREDIENTS_FAILED
+} from '../actionTypes/ingredient'
 
 const initialState = {
     ingredients: null,

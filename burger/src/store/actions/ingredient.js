@@ -1,4 +1,12 @@
-import { ADD_INGREDIENT, REM_INGREDIENT, CLEAR_ORDER, FETCH_INGREDIENTS, FETCH_INGREDIENTS_FAILED, SET_INGREDIENTS } from '../actionTypes/order'
+import {
+    ADD_INGREDIENT
+    , REM_INGREDIENT
+    , CLEAR_ORDER
+    , FETCH_INGREDIENTS
+    , FETCH_INGREDIENTS_FAILED
+    , SET_INGREDIENTS
+} from '../actionTypes/ingredient'
+
 import axios from '../../axios-orders-firebase'
 
 const defaultTimeout = 500;

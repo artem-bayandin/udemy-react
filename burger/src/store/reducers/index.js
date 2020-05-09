@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import orderReducer from './order'
+import orderReducer from './ingredient'
 
 const reducer = combineReducers({
     order: orderReducer

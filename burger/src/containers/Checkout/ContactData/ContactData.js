@@ -8,7 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
 import { connect } from 'react-redux'
-import { clearOrderAsync } from '../../../store/actions/order'
+import { clearOrderAsync } from '../../../store/actions/ingredient'
 
 const ContactData = (props) => {
     const [loading, setLoading] = useState(false)
