@@ -45,6 +45,6 @@ export default connect(mapState, mapDispatch)
     // React.memo(withErrorHandler(Orders, axios), (prevProps, nextProps) => {
     //     return prevProps.orders == nextProps.orders
     //         && prevProps.token == nextProps.token
-    // })
+    // }) 
     withErrorHandler(Orders, axios)
 )
