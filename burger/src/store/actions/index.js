@@ -19,4 +19,18 @@ export {
     , signin
     , logout
     , authCheckState
+    , fetchUserData
+    , setUserData
+    
+    , signinStart
+    , signinSucceeded
+    , signinFailed
+    
+    , signupStart
+    , signupSucceeded
+    , signupFailed
+
+    , signupStartSucceeded
+    , logoutSucceeded
+    , signinStartSucceeded
 } from './auth'

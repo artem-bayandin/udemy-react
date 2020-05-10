@@ -33,7 +33,8 @@ const authReducer = (state = initialState, action) => {
                 token: action.payload.token, 
                 userId: action.payload.userId,
                 loggedInDate: action.payload.created,
-                expiresIn: action.payload.expiresIn
+                expiresIn: action.payload.expiresIn,
+                email: action.payload.email
             })
         case SIGN_UP_FAILED:
             return updateObject(state, { 
@@ -51,7 +52,8 @@ const authReducer = (state = initialState, action) => {
                 token: action.payload.token, 
                 userId: action.payload.userId,
                 loggedInDate: action.payload.created,
-                expiresIn: action.payload.expiresIn
+                expiresIn: action.payload.expiresIn,
+                email: action.payload.email
             })
         case SIGN_IN_FAILED:
             return updateObject(state, { 
@@ -63,7 +65,8 @@ const authReducer = (state = initialState, action) => {
                 token: null,
                 userId: null,
                 loggedInDate: null,
-                expiresIn: null
+                expiresIn: null,
+                email: null
             })
         case SET_USER_DATA: {
             // imitate that we got some data from backend and set it into redux
