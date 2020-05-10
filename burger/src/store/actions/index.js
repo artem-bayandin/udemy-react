@@ -1,11 +1,10 @@
 export {
     addIngredient
-    , addIngredientAsync
     , removeIngredient
-    , removeIngredientAsync
     , clearOrder
-    , clearOrderAsync
     , fetchIngredients
+    , fetchIngredientsFailed
+    , setIngredients
 } from './burgerBuilder'
 export {
     purchaseOrderAsync

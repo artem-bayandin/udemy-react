@@ -4,6 +4,7 @@ export {
     , CLEAR_ORDER
     , FETCH_INGREDIENTS
     , SET_INGREDIENTS
+    , BB_INITIATE_FETCH_INGREDIENTS
 } from './burgerBuilder'
 export {
     PURCHASE_INIT

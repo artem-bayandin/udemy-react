@@ -4,11 +4,8 @@ import {
     , CLEAR_ORDER
     , FETCH_INGREDIENTS_FAILED
     , SET_INGREDIENTS
+    , BB_INITIATE_FETCH_INGREDIENTS
 } from '../actionTypes/burgerBuilder'
-
-import axios from '../../axios-orders-firebase'
-
-const defaultTimeout = 500;
 
 export const addIngredient = (name) => {
     return {
@@ -16,14 +13,6 @@ export const addIngredient = (name) => {
         payload: {
             name
         }
-    }
-}
-
-export const addIngredientAsync = (name) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(addIngredient(name))
-        }, defaultTimeout);
     }
 }
 
@@ -36,25 +25,17 @@ export const removeIngredient = (name) => {
     }
 }
 
-export const removeIngredientAsync = (name) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(removeIngredient(name))
-        }, defaultTimeout);
-    }
-}
-
 export const clearOrder = () => {
     return {
         type: CLEAR_ORDER
     }
 }
 
-export const clearOrderAsync = () => {
+export const clearOrderAsync = () => { // this method is left here to show dispath in action
     return dispatch => {
         setTimeout(() => {
             dispatch(clearOrder())
-        }, defaultTimeout);
+        }, 500);
     }
 }
 
@@ -72,9 +53,7 @@ export const fetchIngredientsFailed = () => {
 }
 
 export const fetchIngredients = () => {
-    return dispatch => {
-        axios.get('/ingredients.json')
-            .then(resp => dispatch(setIngredients(resp.data)))
-            .catch(err => dispatch(fetchIngredientsFailed()))
+    return {
+        type: BB_INITIATE_FETCH_INGREDIENTS
     }
 }

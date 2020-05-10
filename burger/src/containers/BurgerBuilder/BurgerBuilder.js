@@ -9,7 +9,7 @@ import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../../hoc/withErrorHandling/withErrorHandler"
 
 import { connect } from 'react-redux'
-import { addIngredientAsync, removeIngredientAsync, fetchIngredients, purchaseInit } from "../../store/actions/index"
+import { addIngredient, removeIngredient, fetchIngredients, purchaseInit } from "../../store/actions/index"
 
 export const BurgerBuilder = (props) => {
     const [btnsDisabled, setBtnsDisabled] = useState({
@@ -104,8 +104,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
     return {
-        addIngredient: name => dispatch(addIngredientAsync(name)),
-        remIngredient: name => dispatch(removeIngredientAsync(name)),
+        addIngredient: name => dispatch(addIngredient(name)),
+        remIngredient: name => dispatch(removeIngredient(name)),
         initIngredients: () => dispatch(fetchIngredients()),
         initPurchase: () => dispatch(purchaseInit())
     }

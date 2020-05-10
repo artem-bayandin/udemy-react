@@ -8,7 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Inputs/Input'
 
 import { connect } from 'react-redux'
-import { clearOrderAsync, purchaseOrderAsync } from '../../../store/actions/index'
+import { clearOrder, purchaseOrderAsync } from '../../../store/actions/index'
 import withErrorHandler from '../../../hoc/withErrorHandling/withErrorHandler'
 import { Redirect } from 'react-router'
 import { validateInput } from '../../../shared/uivalidation'
@@ -193,7 +193,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
     return {
-        clearOrder: () => dispatch(clearOrderAsync()),
+        clearOrder: () => dispatch(clearOrder()),
         purchaseOrder: (order, token) => dispatch(purchaseOrderAsync(order, token))
     }
 }
