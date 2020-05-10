@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects'
+import { takeEvery, all, takeLatest } from 'redux-saga/effects'
 
 import {
     AUTH_INITIATE_LOGOUT
@@ -25,17 +25,22 @@ import { fetchIngredientsSaga } from './burgerBuilder'
 import { purchaseOrderSaga, fetchOrdersSaga } from './order'
 
 export function* watchAuth() {
-    yield takeEvery(AUTH_INITIATE_LOGOUT, logoutSaga)
-    yield takeEvery(AUTH_INITIATE_SIGN_IN_START, signinStartSaga)
-    yield takeEvery(AUTH_INITIATE_SIGN_UP_START, signupStartSaga)
-    yield takeEvery(AUTH_INITIATE_SIGN_IN, signinSaga)
-    yield takeEvery(AUTH_INITIATE_SIGN_UP, signupSaga)
-    yield takeEvery(AUTH_INITIATE_CHECK_STATE, authCheckStateSaga)
-    yield takeEvery(AUTH_INITIATE_FETCH_USER, fetchUserDataSaga)
+    yield all([
+        takeEvery(AUTH_INITIATE_LOGOUT, logoutSaga)
+        , takeEvery(AUTH_INITIATE_SIGN_IN_START, signinStartSaga)
+        , takeEvery(AUTH_INITIATE_SIGN_UP_START, signupStartSaga)
+        , takeEvery(AUTH_INITIATE_SIGN_IN, signinSaga)
+        , takeEvery(AUTH_INITIATE_SIGN_UP, signupSaga)
+        , takeEvery(AUTH_INITIATE_CHECK_STATE, authCheckStateSaga)
+        , takeEvery(AUTH_INITIATE_FETCH_USER, fetchUserDataSaga)
+    ])
 }
 
 export function* watchBurgerBuilder() {
     yield takeEvery(BB_INITIATE_FETCH_INGREDIENTS, fetchIngredientsSaga)
+
+    // cancells current and runs only latest
+    // yield takeLatest(BB_INITIATE_FETCH_INGREDIENTS, fetchIngredientsSaga)
 }
 
 export function* watchOrder() {

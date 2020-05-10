@@ -1,4 +1,4 @@
-import { put, delay } from 'redux-saga/effects'
+import { put, delay, call } from 'redux-saga/effects'
 
 import axios from 'axios'
 
@@ -109,11 +109,15 @@ export function* fetchUserDataSaga(action) {
 }
 
 
-const clearUserInLocalStorage = () => {
-    localStorage.removeItem('userId')
-    localStorage.removeItem('token')
-    localStorage.removeItem('expiresIn')
-    localStorage.removeItem('created')
+function* clearUserInLocalStorage() {
+    // localStorage.removeItem('userId')
+    // localStorage.removeItem('token')
+    // localStorage.removeItem('expiresIn')
+    // localStorage.removeItem('created')
+    yield call([localStorage, 'removeItem'], 'userId') // these changes are here to make sagas testable
+    yield call([localStorage, 'removeItem'], 'token')
+    yield call([localStorage, 'removeItem'], 'expiresIn')
+    yield call([localStorage, 'removeItem'], 'created')
 }
 
 const setLocalStorageTokenAndExpiration = (userId, token, expiresIn) => {
