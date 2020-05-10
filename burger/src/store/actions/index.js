@@ -8,10 +8,14 @@ export {
 } from './burgerBuilder'
 export {
     purchaseOrderAsync
-    // , purchaseOrderFailed
-    // , purchaseOrderSuccess
+    , purchaseOrderStart
+    , purchaseOrderSuccess
+    , purchaseOrderFailed
     , purchaseInit
     , fetchOrdersAsync
+    , fetchOrdersStart
+    , fetchOrdersSuccess
+    , fetchOrdersFailed
 } from './order'
 export {
     signup

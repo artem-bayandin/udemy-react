@@ -2,14 +2,14 @@ import {
     PURCHASE_ORDER_SUCCESS
     , PURCHASE_ORDER_FAILED
     , PURCHASE_ORDER_START
-    , PURCHASE_INIT,
-    FETCH_ORDERS_START,
-    FETCH_ORDERS_SUCCESS,
-    FETCH_ORDERS_FAILED,
-    FETCH_ORDERS_INIT
+    , PURCHASE_INIT
+    , FETCH_ORDERS_START
+    , FETCH_ORDERS_SUCCESS
+    , FETCH_ORDERS_FAILED
+    , FETCH_ORDERS_INIT
+    , ORDER_INITIATE_FETCH_ORDERS
+    , ORDER_INITIATE_PURCHASE_ORDER
 } from '../actionTypes/index'
-
-import axios from '../../axios-orders-firebase'
 
 export const purchaseInit = () => {
     return {
@@ -41,17 +41,12 @@ export const purchaseOrderFailed = (err) => {
 }
 
 export const purchaseOrderAsync = (order, token) => {
-    return dispatch => {
-        dispatch(purchaseOrderStart())
-        const tknStr = token ? '?auth=' + token : ''
-        const url = '/orders.json' + tknStr
-        axios.post(url, order)
-            .then(resp => {
-                dispatch(purchaseOrderSuccess(resp.data.name, { ...resp.data }))
-            })
-            .catch(err => {
-                dispatch(purchaseOrderFailed(err))
-            })
+    return {
+        type: ORDER_INITIATE_PURCHASE_ORDER,
+        payload: {
+            order,
+            token
+        }
     }
 }
 
@@ -82,24 +77,11 @@ export const fetchOrdersFailed = (err) => {
 }
 
 export const fetchOrdersAsync = (token, userId) => {
-    return dispatch => {
-        dispatch(fetchOrdersStart())
-        const queryParams = token
-            ? '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"'
-            : ''
-        const url = '/orders.json' + queryParams
-        axios.get(url)
-            .then(resp => {
-                const orders = Object.keys(resp.data).map(key => {
-                    return {
-                        ...resp.data[key],
-                        id: resp.data[key].name
-                    }
-                })
-                dispatch(fetchOrdersSuccess(orders))
-            })
-            .catch(err => {
-                dispatch(fetchOrdersFailed(err))
-            })
+    return {
+        type: ORDER_INITIATE_FETCH_ORDERS,
+        payload: {
+            token,
+            userId
+        }
     }
 }

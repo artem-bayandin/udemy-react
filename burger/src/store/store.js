@@ -8,6 +8,7 @@ import reducer from './reducers/index'
 import {
     watchAuth
     , watchBurgerBuilder
+    , watchOrder
 } from './sagas/index'
 
 console.log('[NODE_ENV]', process.env.NODE_ENV)
@@ -25,5 +26,6 @@ const store = createStore(reducer, middleware);
 
 sagaMiddleware.run(watchAuth)
 sagaMiddleware.run(watchBurgerBuilder)
+sagaMiddleware.run(watchOrder)
 
 export default store

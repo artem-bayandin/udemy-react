@@ -7,8 +7,10 @@ import {
     , AUTH_INITIATE_SIGN_IN
     , AUTH_INITIATE_SIGN_UP
     , AUTH_INITIATE_CHECK_STATE
-    , AUTH_INITIATE_FETCH_USER,
-    BB_INITIATE_FETCH_INGREDIENTS
+    , AUTH_INITIATE_FETCH_USER
+    , BB_INITIATE_FETCH_INGREDIENTS
+    , ORDER_INITIATE_FETCH_ORDERS
+    , ORDER_INITIATE_PURCHASE_ORDER
 } from '../actionTypes/index'
 import {
     logoutSaga
@@ -20,6 +22,7 @@ import {
     , fetchUserDataSaga
 } from './auth'
 import { fetchIngredientsSaga } from './burgerBuilder'
+import { purchaseOrderSaga, fetchOrdersSaga } from './order'
 
 export function* watchAuth() {
     yield takeEvery(AUTH_INITIATE_LOGOUT, logoutSaga)
@@ -33,4 +36,9 @@ export function* watchAuth() {
 
 export function* watchBurgerBuilder() {
     yield takeEvery(BB_INITIATE_FETCH_INGREDIENTS, fetchIngredientsSaga)
+}
+
+export function* watchOrder() {
+    yield takeEvery(ORDER_INITIATE_FETCH_ORDERS, fetchOrdersSaga)
+    yield takeEvery(ORDER_INITIATE_PURCHASE_ORDER, purchaseOrderSaga)
 }
