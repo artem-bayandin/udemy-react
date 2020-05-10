@@ -1,5 +1,6 @@
 {
   "name": "next-js",
+  "description": "module 23: next.js",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
