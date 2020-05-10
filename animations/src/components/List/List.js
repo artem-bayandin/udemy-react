@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import './List.css';
+import './List.css'
 
 class List extends Component {
     state = {
@@ -11,16 +11,16 @@ class List extends Component {
         this.setState((prevState) => {
             return {
                 items: prevState.items.concat(prevState.items.length + 1)
-            };
-        });
+            }
+        })
     }
 
     removeItemHandler = (selIndex) => {
         this.setState((prevState) => {
             return {
                 items: prevState.items.filter((item, index) => index !== selIndex)
-            };
-        });
+            }
+        })
     }
 
     render () {
@@ -29,7 +29,7 @@ class List extends Component {
                 key={index}
                 className="ListItem" 
                 onClick={() => this.removeItemHandler(index)}>{item}</li>
-        ) );
+        ) )
 
         return (
             <div>
@@ -39,8 +39,8 @@ class List extends Component {
                     {listItems}
                 </ul>
             </div>
-        );
+        )
     }
 }
 
-export default List;
+export default List
