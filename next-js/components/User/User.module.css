@@ -1,0 +1,7 @@
+.User {
+    display: block;
+    width: 250px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
