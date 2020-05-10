@@ -54,7 +54,15 @@ const modal = (props) => {
             onExit={() => console.log('[Modal] 4.onExit')}
             onExiting={() => console.log('[Modal] 5.onExiting')}
             onExited={() => console.log('[Modal] 6.onExited')}
-            classNames="Modal-Fade"
+            // classNames="Modal-Fade"
+            classNames={{
+                enter: '',
+                enterActive: 'Modal-Fade-enter-active',
+                exit: '',
+                exitActive: 'Modal-Fade-exit-active',
+                appear: '',
+                appearActive: ''
+            }}
         >
             <div className='Modal'>
                 <h1>A Modal</h1>
