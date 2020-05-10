@@ -26,6 +26,19 @@
     animation: closeModal 1s ease-out forwards;
 }
 
+.Modal-Fade-enter {
+
+}
+.Modal-Fade-enter-active {
+    animation: openModal 0.2s ease-out forwards;
+}
+.Modal-Fade-exit {
+
+}
+.Modal-Fade-exit-active {
+    animation: closeModal 1s ease-out forwards;
+}
+
 @keyframes openModal {
     0% {
         opacity: 0;
