@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Burger from "../../components/Burger/Burger"
 import BuildControls from "../../components/Burger/BuildControls/BuildControls"
 import Modal from '../../components/UI/Modal/Modal'
@@ -8,7 +8,7 @@ import axios from '../../axios-orders-firebase'
 import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../../hoc/withErrorHandling/withErrorHandler"
 
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { addIngredient, removeIngredient, fetchIngredients, purchaseInit } from "../../store/actions/index"
 
 export const BurgerBuilder = (props) => {
@@ -23,27 +23,40 @@ export const BurgerBuilder = (props) => {
     const [purchasing, setPurchasing] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        props.initIngredients()
-    }, [])
+    const dispatch = useDispatch()
+    const addIng = name => dispatch(addIngredient(name))
+    const remIng = name => dispatch(removeIngredient(name))
+    const initIngredients = useCallback(() => dispatch(fetchIngredients()), [])
+    const initPurchase = () => dispatch(purchaseInit())
+
+    // the same could be done with { ... } and return { ... }
+    const [ ingredients, price, isAuthenticated ] = useSelector(state => {
+        return [
+            state.burgerBuilder.ingredients,
+            state.burgerBuilder.totalPrice,
+            !!state.auth.token
+        ]
+    })
 
     useEffect(() => {
-        if (!props.ingredients) return
+        initIngredients()
+    }, [initIngredients])
+
+    useEffect(() => {
+        if (!ingredients) return
 
         setBtnsDisabled({
-            salad: !props.ingredients.salad,
-            bacon: !props.ingredients.bacon,
-            cheese: !props.ingredients.cheese,
-            meat: !props.ingredients.meat,
+            salad: !ingredients.salad,
+            bacon: !ingredients.bacon,
+            cheese: !ingredients.cheese,
+            meat: !ingredients.meat,
         })
 
-        setPurchasable(props.ingredients.salad || props.ingredients.bacon || props.ingredients.cheese || props.ingredients.meat)
-    }, [
-        props.ingredients
-    ])
+        setPurchasable(ingredients.salad || ingredients.bacon || ingredients.cheese || ingredients.meat)
+    }, [])
 
     const purchaseHandler = () => {
-        if (props.isAuthenticated) {
+        if (isAuthenticated) {
             setPurchasing(true)
         } else {
             props.history.push('/auth', { returnUrl: '/checkout' })
@@ -53,7 +66,7 @@ export const BurgerBuilder = (props) => {
     const purchaseCancelHandler = () => {setPurchasing(false)}
 
     const purchaseContinueHandler = () => {
-        props.initPurchase()
+        initPurchase()
         props.history.push('/checkout')
     }
 
@@ -63,29 +76,29 @@ export const BurgerBuilder = (props) => {
                 {
                     loading
                         ? <Spinner />
-                        : props.ingredients
+                        : ingredients
                             ? <OrderSummary
-                                    ingredients={props.ingredients}
+                                    ingredients={ingredients}
                                     cancelPurchase={purchaseCancelHandler}
                                     continuePurchase={purchaseContinueHandler}
-                                    price={props.price}
+                                    price={price}
                               />
                             : null
                 }
             </Modal>
             {
-                props.ingredients
+                ingredients
                     ? 
                     <>
-                        <Burger ingredients={props.ingredients} />
+                        <Burger ingredients={ingredients} />
                         <BuildControls
-                            ingredientAdded={props.addIngredient}
-                            ingredientRemoved={props.remIngredient}
+                            ingredientAdded={addIng}
+                            ingredientRemoved={remIng}
                             btnsDisabled={btnsDisabled}
-                            price={props.price}
+                            price={price}
                             purchasable={purchasable}
                             purchase={purchaseHandler}
-                            isAuthenticated={props.isAuthenticated}
+                            isAuthenticated={isAuthenticated}
                         />
                     </>
                     : <Spinner />
@@ -94,21 +107,21 @@ export const BurgerBuilder = (props) => {
     )
 }
 
-const mapState = state => {
-    return {
-        ingredients: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice,
-        isAuthenticated: !!state.auth.token
-    }
-}
+// const mapState = state => {
+//     return {
+//         ingredients: state.burgerBuilder.ingredients,
+//         price: state.burgerBuilder.totalPrice,
+//         isAuthenticated: !!state.auth.token
+//     }
+// }
 
-const mapDispatch = dispatch => {
-    return {
-        addIngredient: name => dispatch(addIngredient(name)),
-        remIngredient: name => dispatch(removeIngredient(name)),
-        initIngredients: () => dispatch(fetchIngredients()),
-        initPurchase: () => dispatch(purchaseInit())
-    }
-}
+// const mapDispatch = dispatch => {
+//     return {
+//         addIngredient: name => dispatch(addIngredient(name)),
+//         remIngredient: name => dispatch(removeIngredient(name)),
+//         initIngredients: () => dispatch(fetchIngredients()),
+//         initPurchase: () => dispatch(purchaseInit())
+//     }
+// }
 
-export default connect(mapState, mapDispatch)(withErrorHandler(BurgerBuilder, axios))
+export default withErrorHandler(BurgerBuilder, axios)
