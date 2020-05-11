@@ -11,9 +11,7 @@ import { fetchOrdersAsync } from '../../store/actions'
 
 const Orders = (props) => {
     useEffect(() => {
-        setTimeout(() => {
-            props.fetchOrders(props.token, props.userId)
-        }, 500);
+        props.fetchOrders(props.token, props.userId)
     }, [])
 
     return props.loading 
@@ -40,11 +38,4 @@ const mapDispatch = dispatch => {
     }
 }
 
-export default connect(mapState, mapDispatch)
-(
-    // React.memo(withErrorHandler(Orders, axios), (prevProps, nextProps) => {
-    //     return prevProps.orders == nextProps.orders
-    //         && prevProps.token == nextProps.token
-    // }) 
-    withErrorHandler(Orders, axios)
-)
+export default connect(mapState, mapDispatch)(withErrorHandler(Orders, axios))
