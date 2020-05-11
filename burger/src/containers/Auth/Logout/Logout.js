@@ -6,9 +6,10 @@ import { logout } from '../../../store/actions'
 import { Redirect } from 'react-router'
 
 const Logout = props => {
+    const { logout } = props
     useEffect(() => {
-        props.logout()
-    }, [])
+        logout()
+    }, [logout])
 
     return (
         <Redirect to='/' />

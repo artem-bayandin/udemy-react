@@ -14,9 +14,10 @@ const Logout = React.lazy(() => import('./containers/Auth/Logout/Logout'))
 const BurgerBuilder = React.lazy(() => import('./containers/BurgerBuilder/BurgerBuilder'))
 
 const App = (props) => {
+    const { checkAuth } = props
     useEffect(() => {
-        props.checkAuth()
-    }, [])
+        checkAuth()
+    }, [checkAuth])
 
     return (
         <Layout>
