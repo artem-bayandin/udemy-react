@@ -4,8 +4,8 @@ let globalState = {}
 let listeners = []
 let actions = {}
 
-export const useStore = () => {
-    const [ , setState ] = useState(globalState)
+export const useStore = (shouldListen = true) => {
+    const setState = useState(globalState)[1]
 
     const dispatch = (actionIdentifier, payload) => {
         const newState = actions[actionIdentifier](globalState, payload)
@@ -18,12 +18,16 @@ export const useStore = () => {
     }
 
     useEffect(() => {
-        listeners.push(setState)
+        if (shouldListen) {
+            listeners.push(setState)
+        }
 
         return () => {
-            listeners = listeners.filter(item => item !== setState)
+            if (shouldListen) {
+                listeners = listeners.filter(item => item !== setState)
+            }
         }
-    }, [])
+    }, [setState, shouldListen])
 
     return [ globalState, dispatch ]
 }

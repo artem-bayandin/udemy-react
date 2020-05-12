@@ -7,11 +7,11 @@ import { useStore } from "../hooks/store";
 
 const Products = (props) => {
     const [state] = useStore();
-    console.log("[Products] state", state);
+    console.log("[Products] rendering with state", state);
     return (
         <ul className="products-list">
             {state.products.map((prod) => {
-                console.log("[Products] [Item]", prod);
+                console.log("[Products] mapping list item", prod);
                 return (
                     <ProductItem
                         key={prod.id}

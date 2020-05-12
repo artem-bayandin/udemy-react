@@ -4,12 +4,14 @@ export const configureStore = () => {
     const actions = {
         TOGGLE_FAV: (currentState, productId) => {
             console.log('TOGGLE_FAV currentState', currentState)
-            return currentState.products.map(item => {
-                return {
-                    ...item,
-                    isFavorite: item.id === productId ? !item.isFavorite : item.isFavorite
-                }
-            })
+            return {
+                products: currentState.products.map(item => {
+                    return {
+                        ...item,
+                        isFavorite: item.id === productId ? !item.isFavorite : item.isFavorite
+                    }
+                })
+            }
         }
     }
 
